@@ -8,18 +8,10 @@ function calculator(){
 
 function calculate(first, second, sign){
     const signs = {
-        "+": (first, second) => {
-            return +first + +second
-        },
-        "-": (first, second) => {
-            return first - second
-        },
-        "*": (first, second) => {
-            return first * second
-        },
-        "/": (first, second) => {
-            return first / second
-        }
+        "+": (first, second) => +first + +second,
+        "-": (first, second) => first - second,
+        "*": (first, second) => first * second,
+        "/": (first, second) => first / second
     }
     if (Array.isArray(first)){
         let result = []
@@ -29,8 +21,22 @@ function calculate(first, second, sign){
         })
         return result
     }
+    if (typeof first === 'object'){
+        return {result: signs[sign](first.a, second.b)}
+    }
     return signs[sign](first, second)
 }
 
-console.log(calculate([1,2,3], [1,5,3], "+"))
-console.log(calculate([1,2,3], [1,5,3], "*"))
+// console.log(calculate([1,2,3], [1,5,3], "+"))
+// console.log(calculate([1,2,3], [1,5,3], "*"))
+
+// console.log(calculate({a: 7}, {b: 2}, "-"))
+// console.log(calculate({a: 7}, {b: 2}, "/"))
+
+let MathFrameWork = {
+    result: "",
+    calc: (a,b,sign) => MathFrameWork.result = calculate(a,b,sign)
+}
+
+MathFrameWork.calc({a: 7}, {b: 2}, "-")
+console.log(MathFrameWork.result)
